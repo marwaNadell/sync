@@ -12,7 +12,9 @@
   <div class="inner-higher-footer">
     
   <form action="{{ routes.search_url }}">
-  <input type="text"
+  <input
+  style="padding-top:{{section.settings.padding-top}}px;padding-bottom:{{section.settings.padding-bottom}}px;"
+  type="text"
     placeholder="Search"
     name="q"
     value="{{ search.terms | escape }}"
@@ -27,6 +29,7 @@
 
 
 {% stylesheet %}
+
     .higher-footer{
         display:flex;
         width:100%;
@@ -106,6 +109,18 @@
   "step": 1,
   "label": "text_size",
   "default": 16
+},
+{
+  "type": "number",
+  "id": "padding-top",
+  "label": "input-padding-top"
+  
+},
+{
+  "type": "number",
+  "id": "padding-bottom",
+  "label": "input-padding-bottom"
+  
 }
         ]
     }
