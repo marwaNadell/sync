@@ -1,0 +1,18 @@
+{
+    "type": "header",
+    "name": "headr-group-1",
+    "sections": {
+      "header-1": {
+        "type": "header-1",
+        "settings": {}
+      },
+      "announcement-1":{
+        "type": "announcement-1",
+        "settings": {}
+      }
+    },
+    "order": [
+      "announcement-1",
+      "header-1"
+    ]
+  }

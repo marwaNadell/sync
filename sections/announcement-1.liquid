@@ -1,0 +1,55 @@
+<h2 class="announc" style="text-align: {{section.settings.announcement_aligment}};
+background-color:{{ section.settings.background-color}};
+">{{ section.settings.announcement }}</h2>
+
+
+{% style  %}
+    .announc{
+        margin:0px;
+    }
+{%endstyle%}
+
+ {% schema %}
+ {
+ "settings": [
+ {
+ "type": "text",
+ "id": "announcement",
+ "label": "My setting label",
+ "default": "free shipping"
+ }, {
+ "type": "radio",
+ "id": "announcement_aligment",
+ "label": "announcement_aligment",
+ "options": [
+ {
+ "value": "left",
+ "label": "Left"
+ }, {
+ "value": "center",
+ "label": "Center"
+ }, {
+ "value": "right",
+ "label": "right"
+ }
+ ],
+ "default": "left"
+ }, {
+ "type": "color",
+ "id": "background-color",
+ "label": "background-color",
+ "default": "#1773B0"
+ }
+ ],
+ "presets": [
+ {
+ "name": "announcement_bar",
+ "settings": {}
+ }
+ ]
+ }
+ {% endschema %}
+
+
+ 
+

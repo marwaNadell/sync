@@ -1,0 +1,135 @@
+<nav class="navbar" style="background-color: {{section.settings.nav-background-color}}; position:{{section.settings.nav-pos}};">
+  <div class="container-navbar-brand">
+    <a
+      style="color: {{section.settings.nav-text-background-color}};"
+      href="/"
+      class="navbar-brand">
+      <img src={{section.settings.nav_img | img_url }} alt="">
+
+    </a>
+  </div>
+
+  <div class="nav-links">
+    {% for link in linklists.main-menu.links -%}
+      <a
+        style="color: {{section.settings.nav-text-background-color}};"
+        href={{ link.url}}
+        class="nav-link">{{ link.title }}</a>
+    {%- endfor %}
+
+
+    <button id="burger-icon">burger</button>
+  </div>
+  <div class="burger" id="burger">
+    {% for link in linklists.main-menu.links -%}
+      <div class="bar">
+        <a
+          style="color: {{section.settings.nav-text-background-color}};"
+          href={{ link.url}}
+          class="">{{ link.title }}</a>
+      </div>
+
+    {%- endfor %}
+  </div>
+</nav>
+
+{% style %}
+  .container-navbar-brand img {
+    width: 15%;
+  }
+  .navbar {
+    width: 100%;
+    margin-top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 999;
+
+    background-color: #f8f8f8;
+    flex-wrap: wrap;
+  }
+  .navbar a {
+    text-decoration: none;
+  }
+  .container-navbar-brand {
+    width: 50%;
+  }
+  .nav-links {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .burger {
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+
+  }
+  .bar {
+    width: 100%;
+    text-align: center;
+
+  }
+  .nav-links button {
+    display: none;
+  }
+  @media(max-width: 768px) {
+    .nav-links {
+      flex-direction: row-reverse;
+    }
+    .nav-links .nav-link {
+      display: none;
+    }
+    .nav-links button {
+      display: block;
+    }
+  }
+  @media(min-width: 769px) {
+    #burger {
+      visibility: hidden;
+
+      height: 0;
+    }
+  }
+{% endstyle %}
+
+
+
+{% schema %}
+  {
+
+    "settings": [
+      {
+        "type": "color",
+        "id": "nav-background-color",
+        "label": "nav-background-color",
+        "default": "#1773B0"
+      }, {
+        "type": "radio",
+        "id": "nav-pos",
+        "label": "nav-position",
+        "options": [
+          {
+            "value": "fixed",
+            "label": "fixed"
+          }, {
+            "value": "relative",
+            "label": "not fixed"
+          }
+        ],
+        "default": "relative"
+      }, {
+        "type": "color",
+        "id": "nav-text-background-color",
+        "label": "nav-text-background-color",
+        "default": "#1773B0"
+      }, {
+        "type": "image_picker",
+        "id": "nav_img",
+        "label": "nav_img"
+      }
+    ]
+  }
+{% endschema %}

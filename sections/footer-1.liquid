@@ -1,0 +1,81 @@
+<div style="color:{{section.settings.text-color}}; background-color:{{section.settings.first-footer-background}} ; " class="higher-footer">
+  <div class="inner-higher-footer">
+    <img style="width:{{section.settings.image_size}}%;" src={{section.settings.logo   | img_url: 'large' }} alt="">
+
+  </div>
+  <div class="inner-higher-footer">
+    
+  {% for menu in section.settings.footer-menu.links %} 
+    <a style="color:{{section.settings.text-color}};"   href={{menu.url}}>{{menu.title}}</a>
+    {% endfor %}
+  </div>
+  <div class="inner-higher-footer">
+    c
+    
+  </div>
+</div>
+
+
+
+
+{% stylesheet %}
+    .higher-footer{
+        display:flex;
+        width:100%;
+        justify-content:center;
+
+    }
+    .inner-higher-footer{
+        width:30%;
+        
+        text-align:center;
+    }
+    .inner-higher-footer a{
+        text-decoration:none;
+    }
+{% endstylesheet %}
+
+
+
+
+
+
+{% schema %}
+    {
+        "name":"footer-1",
+        "settings": [
+            {
+  "type": "color",
+  "id": "first-footer-background",
+  "label": "first-footer-background",
+  "default": "#000000"
+              },
+              {
+  "type": "color",
+  "id": "text-color",
+  "label": "text-color",
+  "default": "#fff"
+              },
+              {
+  "type": "link_list",
+  "id": "footer-menu",
+  "label": "footer-menu"
+},
+{
+  "type": "image_picker",
+  "id": "logo",
+  "label": "logo"
+},
+{
+  "type": "range",
+  "id": "image_size",
+  "min": 25,
+  "max": 100,
+  "step": 1,
+  
+  "label": "image_size",
+  "default": 25
+}
+        ]
+    }
+{% endschema %}
