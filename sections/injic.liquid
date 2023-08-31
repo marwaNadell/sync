@@ -1,0 +1,27 @@
+<h2>injic</h2>
+
+
+
+<div>
+  {% for item in section.settings.collection_list %}
+    {% for item in item.products %}
+      {{ item.price | money_with_currency }}
+    {% endfor %}
+  {% endfor %}
+</div>
+
+
+
+{% schema %}
+  {
+    "name": "injic",
+    "settings": [
+      {
+        "type": "collection_list",
+        "id": "collection_list",
+        "label": "Collections"
+
+      }
+    ]
+  }
+{% endschema %}
