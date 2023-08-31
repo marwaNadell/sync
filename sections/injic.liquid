@@ -1,27 +1,91 @@
-<h2>injic</h2>
+<h2 class="intro">{{section.settings.set-your-definition}}</h2>
 
 
 
-<div>
-  {% for item in section.settings.collection_list %}
-    {% for item in item.products %}
-      {{ item.price | money_with_currency }}
-    {% endfor %}
-  {% endfor %}
+<div class="container-of-product">
+ 
+    {% for item in section.settings.collection_list %}
+        {% for item in item.products %}
+            <div style="width:{{section.settings.product-in-row}}%;" class="inner-container-of-product">
+            <img src={{item.featured_image | img_url: 'large'}} alt="">
+          {{ item.price | money_with_currency }}
+
+          </div>
+        {% endfor %}
+      {% endfor %}
+
+
 </div>
 
-
+{% stylesheet %}
+ .container-of-product{
+    width:100%;
+    display:flex;
+    flex-wrap:wrap
+ }
+ .inner-container-of-product img{
+    width:100%
+ }
+ .inner-container-of-product{
+    
+ }
+ @media (max-width: 769px) {
+    .inner-container-of-product{
+        width:50%;
+    }
+}
+{% endstylesheet %}
 
 {% schema %}
   {
     "name": "injic",
     "settings": [
+        {
+            "type": "text",
+            "id": "set-your-definition",
+            "label": "set-your-definition"
+        },
       {
         "type": "collection_list",
         "id": "collection_list",
         "label": "Collections"
 
-      }
+      },
+      {
+  "type": "select",
+  "id": "product-in-row",
+  "label": "product-in-row",
+  "options": [
+    {
+      "value": "100",
+      "label": "1"
+    },
+    {
+      "value": "45",
+      "label": "2"
+    },
+    {
+      "value": "30",
+      "label": "3"
+    }
+  ],
+  "default": "45"
+}
     ]
+,
+    "presets": [
+    {
+      "name": "add-your-collections-of-products",
+      "settings": {
+        
+      }
+      }]
+
+
+
+
+
+
+    
   }
 {% endschema %}
