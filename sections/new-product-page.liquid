@@ -1,0 +1,77 @@
+
+<div class="container-of-one-product">
+    <div class="container-of-one-product-inner"><img src={{product.featured_image|img_url: 'large'}} alt=""></div>
+    <div class="container-of-one-product-inner">
+        PRODUCT NAME: {{product.title}} <br>
+        PRODUCT PRICE:{{product.price | money_with_currency}} <br>
+        PRODUCT DESCRIPTION: <br>
+        {{product.content   }}
+
+        {% for option in product.options_with_values %}
+            {{option.name}}:
+            <select class="selector" name="" id="var{{forloop.index0}}">
+                {% for value in option.values %}
+                    <option  value="{{value}}">{{value}}</option>
+                {% endfor %}
+            </select>
+            <br>
+        {% endfor %}
+        {% form 'product' ,product %}
+            <input type="hidden" name="id" value="{{product.selected_or_first_available_variant.id}}"  >
+            <input type="text" name="quantity" min="1" value="1">
+            <input type="submit" value="Add to cart">
+          {% endform %}
+
+     
+
+    
+       
+
+       
+        
+    
+        
+
+ 
+  
+    </div>
+</div>
+<script>
+    var slides = document.getElementsByClassName("selector");
+    var count_of_variant=slides.length;
+    for (var i = 0; i < count_of_variant; i++) {
+        document.getElementById("var"+i).addEventListener("click", get_select);
+    }
+    
+function get_select(){
+    var the_product={{product | json}}
+    //   console.log(the_product.variants.length);
+       var slides = document.getElementsByClassName("selector");
+       var count_of_variant=slides.length;
+   var the_string=""
+   
+   for (var i = 0; i < count_of_variant; i++) {
+       //console.log("var"+i)
+    // console.log(document.getElementById("var"+i).value)
+      if(i==count_of_variant-1){
+       the_string+=document.getElementById("var"+i).value
+      }else{
+   
+      the_string+=document.getElementById("var"+i).value+" / "
+      }
+   }
+   
+   console.log(the_string)
+}
+</script>
+{% stylesheet %}
+    .container-of-one-product{
+
+    display:flex;
+    flex-wrap:wrap;
+
+    }
+    .container-of-one-product-inner{
+        width:50%;
+    }
+{% endstylesheet %}
