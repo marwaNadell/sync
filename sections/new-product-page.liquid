@@ -1,90 +1,151 @@
+<div class="container">
+    <div class="product">
 
-<div class="container-of-one-product">
-    <div class="container-of-one-product-inner"><img src={{product.featured_image|img_url: 'large'}} alt=""></div>
-    <div class="container-of-one-product-inner">
-        PRODUCT NAME: {{product.title}} <br>
-        PRODUCT PRICE:{{product.price | money_with_currency}} <br>
-        PRODUCT DESCRIPTION: <br>
-        {{product.content   }}
-
-
-   
-
-        {% for option in product.options_with_values %}
-            {{option.name}}:
-            <select class="selector" name="" id="var{{forloop.index0}}">
-                {% for value in option.values %}
-                    <option  value="{{value}}">{{value}}</option>
-                {% endfor %}
-            </select>
-            <br>
-        {% endfor %}
-        {% form 'product' ,product %}
-            <input id="the-chosen" type="hidden" name="id" value="{{product.selected_or_first_available_variant.id}}"  >
-            <input type="text" name="quantity" min="1" value="1">
-            <input type="submit" value="Add to cart">
-          {% endform %}
-
-     
-
+    <div class="gallary" id="gallary" style="background-image: url({{product.featured_image |img_url: 'large' }});"
+    >
     
-       {% for item in product.variants %}
-       <h6 class="{{item.title}}"> {{item.image  | img_url}}</h6>
-        <hr>
-       {% endfor %}
+    <div class="zoomer" id="zoomer"><span></span></div>
 
+    <div sytle="background-color:black;">
        
+    </div>
+    </div>
+    <div class="details">
         
-    
-        
+    <h3>product name: {{product.title}}</h3>
+    <h3>product price: {{product.price |money_with_currency}} </h3>
+    <h4>product description: </h4>
+    <p> {{product.content}}</p>
 
- 
-  
+    {% for option in product.options_with_values %}
+        
+       {% if option.name=="Color" %}
+       {{option.name}}
+       {% for value in option.values %}
+        <label for="{{value}}">
+        <input class="radion-button" type="radio" {% if value==option.selected_value %}
+            checked
+        {% endif %} name="{{option.name | downcase}}" id="{{value}}">
+    <span class="circ {%if value==option.selected_value%}circ-plus{%endif%}" style="background-color:{{value}};"></span>
+       </label>
+       {% endfor %}
+       {% endif %}
+    {% endfor %}
+    
+    
+    {% for item in product.variants %}
+        {% if item.featured_media != blank%}
+        <img src="{{item.featured_media | img_url: 'large'}}" alt=""> <br>
+        {% endif %}
+        
+       
+    {% endfor %}
+    
+    
+    
+    </div>
     </div>
 </div>
-<script>
-    console.log({{product.images.id  }})
-    var slides = document.getElementsByClassName("selector");
-    var count_of_variant=slides.length;
-    for (var i = 0; i < count_of_variant; i++) {
-        document.getElementById("var"+i).addEventListener("click", get_select);
-    }
-    
-function get_select(){
-    var the_product={{product | json}}
-   // console.log(the_product.variants);
-       var slides = document.getElementsByClassName("selector");
-       var count_of_variant=slides.length;
-   var the_string=""
-   
-   for (var i = 0; i < count_of_variant; i++) {
-       //console.log("var"+i)
-    // console.log(document.getElementById("var"+i).value)
-      if(i==count_of_variant-1){
-       the_string+=document.getElementById("var"+i).value
-      }else{
-   
-      the_string+=document.getElementById("var"+i).value+" / "
-      }
-   }
-   
-   //console.log(the_string)
-   for(var x=0;x<the_product.variants.length;x++){
-    if(the_product.variants[x].title==the_string){
-        console.log(the_product.variants[x].id);
-        document.getElementById("the-chosen").value=the_product.variants[x].id;
-    }
-   }
-}
-</script>
-{% stylesheet %}
-    .container-of-one-product{
 
+
+
+
+
+
+
+
+
+
+
+{% style %}
+  body {
+    padding: 0px;
+    margin:0px;
+    
+  }
+  h2,h3,h4,h5,h6{
+    margin:0px;
+  }
+ .container{
+    width:100%;
+    margin-top:64px;
+    margin-bottom:64px;
+ }
+ .product{
+    width:80%;
+    margin:auto;
     display:flex;
     flex-wrap:wrap;
+min-height:500px;
+background-color:#0000009e;
+border-radius:16px;
+color:white;
+ }
+ .gallary{
+    width:400px;
+    height:400px;
+    background-repeat: no-repeat;
+    background-size:100% 100%;
+    position:relative;
+ }
+ .details{
+    width:50%;
+ }
+ .zoomer{
+    width:400px !important;
+    height: 400px !important;
+    border-radius:50%;
+    background-repeat: no-repeat;
+    background-size:200% 200%;
+    position:absolute;
+    display:none;
+    transform:translate(-50%,-50%);
+    pointer-events: none;
+    
+ }
+ .gallary:hover .zoomer{
+    display:block;
+ }
+  .circ{
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    display:inline-block;
+  }
+  .radion-button{
+    display:none;
+  }
+  .circ-plus{
+    border:1px solid white;
+  }
+{% endstyle %}
 
-    }
-    .container-of-one-product-inner{
-        width:50%;
-    }
-{% endstylesheet %}
+{% javascript %}
+ 
+  document.getElementById("gallary").addEventListener("mousemove",(event)=>{
+              x=event.clientX-event.target.offsetLeft;
+              y=event.clientY-event.target.offsetTop;
+              document.getElementById("zoomer").style.left=x+"px"
+              document.getElementById("zoomer").style.top=y+"px"
+            background=  document.getElementById("gallary").style.backgroundImage;
+              document.getElementById("zoomer").style.backgroundImage= background
+            
+              document.getElementById("zoomer").style.backgroundPositionX=(x-(400/2/2))*-2+"px"
+              document.getElementById("zoomer").style.backgroundPositionY=(y-(400/2/2))*-2+"px"
+        })
+
+
+
+
+        spans    =  document.getElementsByClassName("circ");
+              for (let index = 0; index <  spans.length; index++) {
+                          spans[index].addEventListener("click",(event)=>{
+                            for (let index = 0; index <  spans.length; index++){
+                                spans[index].classList.remove("circ-plus")
+                                event.target.classList.add("circ-plus")
+                            }
+
+                          })
+                
+              }
+{% endjavascript %}
