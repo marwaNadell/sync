@@ -7,6 +7,9 @@
         PRODUCT DESCRIPTION: <br>
         {{product.content   }}
 
+
+   
+
         {% for option in product.options_with_values %}
             {{option.name}}:
             <select class="selector" name="" id="var{{forloop.index0}}">
@@ -17,7 +20,7 @@
             <br>
         {% endfor %}
         {% form 'product' ,product %}
-            <input type="hidden" name="id" value="{{product.selected_or_first_available_variant.id}}"  >
+            <input id="the-chosen" type="hidden" name="id" value="{{product.selected_or_first_available_variant.id}}"  >
             <input type="text" name="quantity" min="1" value="1">
             <input type="submit" value="Add to cart">
           {% endform %}
@@ -25,7 +28,10 @@
      
 
     
-       
+       {% for item in product.variants %}
+       <h6 class="{{item.title}}"> {{item.image  | img_url}}</h6>
+        <hr>
+       {% endfor %}
 
        
         
@@ -37,6 +43,7 @@
     </div>
 </div>
 <script>
+    console.log({{product.images.id  }})
     var slides = document.getElementsByClassName("selector");
     var count_of_variant=slides.length;
     for (var i = 0; i < count_of_variant; i++) {
@@ -45,7 +52,7 @@
     
 function get_select(){
     var the_product={{product | json}}
-    //   console.log(the_product.variants.length);
+   // console.log(the_product.variants);
        var slides = document.getElementsByClassName("selector");
        var count_of_variant=slides.length;
    var the_string=""
@@ -61,7 +68,13 @@ function get_select(){
       }
    }
    
-   console.log(the_string)
+   //console.log(the_string)
+   for(var x=0;x<the_product.variants.length;x++){
+    if(the_product.variants[x].title==the_string){
+        console.log(the_product.variants[x].id);
+        document.getElementById("the-chosen").value=the_product.variants[x].id;
+    }
+   }
 }
 </script>
 {% stylesheet %}
